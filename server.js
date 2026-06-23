@@ -242,8 +242,6 @@ body: JSON.stringify({
   ],
   messages,
 }),
-      }),
-    });
 
     const data = await response.json();
     if (data.error) return res.status(response.status).json({ error: data.error.message });
