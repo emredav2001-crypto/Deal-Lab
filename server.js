@@ -246,6 +246,7 @@ app.post("/api/chat", async (req, res) => {
     });
 
     const data = await response.json();
+    console.log("Cache stats:", JSON.stringify(data.usage));
     if (data.error) return res.status(response.status).json({ error: data.error.message });
     res.json(data);
   } catch (err) {
