@@ -222,7 +222,7 @@ app.post("/api/chat", async (req, res) => {
     return res.status(500).json({ error: "API key not configured" });
   }
 
-  try {
+try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -230,18 +230,19 @@ app.post("/api/chat", async (req, res) => {
         "x-api-key": apiKey,
         "anthropic-version": "2023-06-01",
       },
-body: JSON.stringify({
-  model: "claude-sonnet-4-6",
-  max_tokens: 1000,
-  system: [
-    {
-      type: "text",
-      text: SYSTEM_PROMPT,
-      cache_control: { type: "ephemeral" }
-    }
-  ],
-  messages,
-}),
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: [
+          {
+            type: "text",
+            text: SYSTEM_PROMPT,
+            cache_control: { type: "ephemeral" }
+          }
+        ],
+        messages,
+      }),
+    });
 
     const data = await response.json();
     if (data.error) return res.status(response.status).json({ error: data.error.message });
@@ -249,7 +250,6 @@ body: JSON.stringify({
   } catch (err) {
     res.status(500).json({ error: "Server error: " + err.message });
   }
-});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
